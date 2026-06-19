@@ -1,0 +1,26 @@
+.video-card {
+  cursor: pointer;
+}
+
+.video-thumbnail {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.video-title {
+  font-size: 18px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.video-description {
+  color: #666;
+  font-size: 14px;
+}
+
+.video-views {
+  font-size: 14px;
+  color: #888;
+}
