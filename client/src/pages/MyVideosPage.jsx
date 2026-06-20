@@ -1,173 +1,75 @@
-import {
-  useEffect,
-  useState,
-} from "react";
-
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import Navbar from "../components/Navbar";
+import VideoCard from "../components/VideoCard";
 
-import {
-  getMyVideos,
-  deleteVideo,
-} from "../api/videoApi";
+import { getMyVideos, deleteVideo } from "../api/videoApi";
+
+import "./MyVideosPage.css";
 
 function MyVideosPage() {
-
-  const [videos, setVideos] =
-    useState([]);
+  const [videos, setVideos] = useState([]);
 
   useEffect(() => {
-
-    const fetchVideos =
-      async () => {
-
-        try {
-
-          const token =
-            localStorage.getItem(
-              "token"
-            );
-
-          const data =
-            await getMyVideos(
-              token
-            );
-
-          setVideos(
-            data.videos
-          );
-
-        } catch (error) {
-
-          console.error(
-            error
-          );
-        }
-      };
-
-    fetchVideos();
-
-  }, []);
-
-  const handleDelete =
-    async (videoId) => {
-
+    const fetchVideos = async () => {
       try {
-
-        const token =
-          localStorage.getItem(
-            "token"
-          );
-
-        const confirmDelete =
-          window.confirm(
-            "Delete this video?"
-          );
-
-        if (!confirmDelete)
-          return;
-
-        await deleteVideo(
-          videoId,
-          token
-        );
-
-        setVideos(
-          videos.filter(
-            (video) =>
-              video._id !==
-              videoId
-          )
-        );
-
-        alert(
-          "Video deleted successfully"
-        );
-
+        const token = localStorage.getItem("token");
+        const data = await getMyVideos(token);
+        setVideos(data.videos);
       } catch (error) {
-
-        console.error(
-          error
-        );
-
-        alert(
-          "Failed to delete video"
-        );
+        console.error(error);
       }
     };
 
+    fetchVideos();
+  }, []);
+
+  const handleDelete = async (videoId) => {
+    try {
+      const token = localStorage.getItem("token");
+      const confirmDelete = window.confirm("Delete this video?");
+      if (!confirmDelete) return;
+      await deleteVideo(videoId, token);
+      setVideos(videos.filter((video) => video._id !== videoId));
+      alert("Video deleted successfully");
+    } catch (error) {
+      console.error(error);
+      alert("Failed to delete video");
+    }
+  };
+
   return (
-    <>
+    <div>
       <Navbar />
 
-      <h1>
-        My Videos
-      </h1>
+      <main className="container my-videos-page">
+        <h1>My Videos</h1>
 
-      <h3>
-        Total Videos:
-        {videos.length}
-      </h3>
+        <div className="video-count">Total Videos: {videos.length}</div>
 
-      {videos.map(
-        (video) => (
-          <div
-            key={video._id}
-          >
+        <div className="video-grid">
+          {videos.map((video) => (
+            <div className="my-video-card card" key={video._id}>
+              <VideoCard video={video} />
 
-            <Link
-              to={`/videos/${video._id}`}
-            >
-              <img
-                src={
-                  video.thumbnailUrl
-                }
-                alt={
-                  video.title
-                }
-                width="250"
-              />
-            </Link>
+              <div className="card-actions">
+                <Link to={`/videos/${video._id}`} className="btn-outline">
+                  Watch Video
+                </Link>
 
-            <Link
-              to={`/videos/${video._id}`}
-            >
-              <h2>
-                {video.title}
-              </h2>
-            </Link>
-
-            <p>
-              Views:
-              {video.views}
-            </p>
-
-            <Link
-              to={`/videos/${video._id}`}
-            >
-              <button>
-                Watch Video
-              </button>
-            </Link>
-
-            {" "}
-
-            <button
-              onClick={() =>
-                handleDelete(
-                  video._id
-                )
-              }
-            >
-              Delete
-            </button>
-
-            <hr />
-          </div>
-        )
-      )}
-    </>
+                <button
+                  onClick={() => handleDelete(video._id)}
+                  className="btn-outline btn-delete"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </main>
+    </div>
   );
 }
 

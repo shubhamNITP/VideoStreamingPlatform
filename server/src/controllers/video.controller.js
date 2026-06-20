@@ -268,10 +268,81 @@ const deleteVideo = async (
   }
 };
 
+
+
+const toggleLike = async (
+  req,
+  res
+) => {
+
+  try {
+
+    const video =
+      await Video.findById(
+        req.params.id
+      );
+
+    if (!video) {
+      return res.status(404).json({
+        message:
+          "Video not found",
+      });
+    }
+
+    const userId =
+      req.user._id;
+
+    const alreadyLiked =
+      video.likes.includes(
+        userId
+      );
+
+    if (alreadyLiked) {
+
+      video.likes =
+        video.likes.filter(
+          (id) =>
+            id.toString() !==
+            userId.toString()
+        );
+
+      video.likesCount--;
+
+    } else {
+
+      video.likes.push(
+        userId
+      );
+
+      video.likesCount++;
+    }
+
+    await video.save();
+
+    res.json({
+      success: true,
+      likesCount:
+        video.likesCount,
+      liked:
+        !alreadyLiked,
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      message:
+        "Server Error",
+    });
+  }
+};
+
 module.exports = {
   uploadVideo,
   getAllVideos,
   getVideoById,
   getMyVideos,
-  deleteVideo
+  deleteVideo,
+  toggleLike,
 };

@@ -2,39 +2,61 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  padding: 15px 30px;
-
-  background-color: #111827;
-
-  border-bottom: 1px solid #1f2937;
+  padding: 12px 20px;
+  background: var(--card);
+  border-bottom: 1px solid rgba(15,23,42,0.06);
+  position: sticky;
+  top: 0;
+  z-index: 40;
 }
 
-.logo {
-  font-size: 24px;
-  font-weight: bold;
-  color: #3b82f6;
+.navbar::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 56px;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(255,0,0,0.06), rgba(255,77,77,0.02));
+}
+
+.navbar .logo {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: 0.2px;
 }
 
 .nav-links {
   display: flex;
-  gap: 20px;
+  gap: 12px;
   align-items: center;
 }
 
+.search-inline { margin-left: 18px }
+.search-inline input { width: 320px; padding: 8px 10px; border-radius: 6px }
+
 .nav-link {
-  color: white;
-  font-weight: 500;
+  color: var(--text);
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: background 0.12s, transform 0.12s;
 }
 
-.nav-link:hover {
-  color: #3b82f6;
-}
+.nav-link:hover { background: rgba(15,23,42,0.03); transform: translateY(-1px) }
 
 .logout-btn {
-  background: #ef4444;
+  background: var(--primary);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
 }
 
-.logout-btn:hover {
-  background: #dc2626;
+.logout-btn:hover { opacity: 0.95 }
+
+@media (max-width: 640px) {
+  .nav-links { gap: 8px }
+  .navbar { padding: 10px 12px }
 }

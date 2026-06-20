@@ -69,3 +69,22 @@ export const deleteVideo =
 
     return response.data;
 };
+
+
+export const likeVideo =
+  async (id, token) => {
+
+    const response =
+      await api.post(
+        `/videos/${id}/like`,
+        {},
+        {
+          headers: {
+            Authorization:
+              `Bearer ${token}`,
+          },
+        }
+      );
+
+    return response.data;
+};

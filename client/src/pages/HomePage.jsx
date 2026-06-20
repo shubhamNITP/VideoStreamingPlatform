@@ -59,50 +59,31 @@ function HomePage() {
     <>
       <Navbar />
 
-      <h1>
-        Home Page
-      </h1>
+      <main className="home-page container home-shell">
+        <h1 className="page-title">Home Page</h1>
 
-      <form
-        onSubmit={
-          handleSearch
-        }
-      >
+        <form onSubmit={handleSearch} className="search-panel">
+          <input
+            type="text"
+            className="search-input"
+            placeholder="Search videos..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
 
-        <input
-          type="text"
-          placeholder="Search videos..."
-          value={search}
-          onChange={(e) =>
-            setSearch(
-              e.target.value
-            )
-          }
-        />
+          <button type="submit" className="search-btn">
+            Search
+          </button>
+        </form>
 
-        <button
-          type="submit"
-        >
-          Search
-        </button>
+        <h3 className="video-count">Total Videos: {videos.length}</h3>
 
-      </form>
-
-      <h3>
-        Total Videos:
-        {videos.length}
-      </h3>
-
-      <div className="video-grid">
-
-      {videos.map((video) => (
-        <VideoCard
-          key={video._id}
-          video={video}
-        />
-      ))}
-
-    </div>
+        <div className="video-grid">
+          {videos.map((video) => (
+            <VideoCard key={video._id} video={video} />
+          ))}
+        </div>
+      </main>
     </>
   );
 }

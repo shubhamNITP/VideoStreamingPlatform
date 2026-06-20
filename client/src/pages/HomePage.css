@@ -1,37 +1,44 @@
-.home-page {
-  padding: 20px 40px;
+
+.home-shell {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding-top: 18px;
 }
 
-.page-title {
-  text-align: center;
-  margin-bottom: 20px;
-}
+.home-page { padding: 0 8px 28px; background: transparent }
 
-.search-box {
+.page-title { text-align: left; margin-bottom: 10px; color: var(--text) }
+
+.search-panel {
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin-bottom: 25px;
+  margin-bottom: 18px;
 }
 
 .search-input {
-  width: 350px;
-  max-width: 90%;
+  width: min(560px, 92vw);
+  border-radius: 6px;
+  height: 42px;
 }
 
-.video-count {
-  text-align: center;
-  margin-bottom: 25px;
-}
+.search-btn { background: var(--primary-gradient); color: white; border-radius: 6px; min-width: 120px }
+
+.video-count { text-align: left; margin-bottom: 14px; color: var(--muted); font-weight: 600 }
 
 .video-grid {
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 320px));
+  justify-content: center;
+  gap: 18px;
+  align-items: start;
+}
 
-  grid-template-columns:
-    repeat(
-      auto-fit,
-      minmax(320px, 1fr)
-    );
+@media (min-width: 1280px) {
+  .video-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 340px)); }
+}
 
-  gap: 25px;
+@media (max-width: 480px) {
+  .search-input { width: 100% }
+  .video-grid { gap: 14px; grid-template-columns: 1fr }
 }

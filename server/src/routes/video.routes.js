@@ -10,7 +10,8 @@ const {
   getAllVideos,
   getVideoById,
   getMyVideos,
-  deleteVideo
+  deleteVideo,
+  toggleLike
 } = require("../controllers/video.controller");
 
 const router = express.Router();
@@ -34,6 +35,12 @@ router.get(
   "/my-videos",
   protect,
   getMyVideos
+);
+
+router.post(
+  "/:id/like",
+  protect,
+  toggleLike
 );
 
 router.delete(

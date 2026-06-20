@@ -67,6 +67,13 @@ const videoSchema = new mongoose.Schema(
       default: 0,
     },
 
+    likes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+
     duration: {
       type: Number, // seconds
       default: 0,
