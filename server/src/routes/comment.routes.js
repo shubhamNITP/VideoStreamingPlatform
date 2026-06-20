@@ -12,13 +12,22 @@ const protect =
 const {
   addComment,
   getComments,
+  deleteComment
 } = require(
   "../controllers/comment.controller"
 );
 
+
+
 router.get(
   "/:videoId",
   getComments
+);
+
+router.delete(
+  "/:commentId",
+  protect,
+  deleteComment
 );
 
 router.post(

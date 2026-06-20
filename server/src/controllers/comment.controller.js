@@ -30,7 +30,7 @@ const addComment =
             comment._id
         ).populate(
             "owner",
-            "username"
+            "_id username"
         );
 
         res.status(201).json({
@@ -61,7 +61,7 @@ const getComments =
         })
           .populate(
             "owner",
-            "username"
+            "_id username"
           )
           .sort({
             createdAt: -1,
@@ -86,7 +86,57 @@ const getComments =
 };
 
 
+const deleteComment =
+  async (req, res) => {
+
+    try {
+
+      const comment =
+        await Comment.findById(
+          req.params.commentId
+        );
+
+      if (!comment) {
+        return res.status(404).json({
+          message:
+            "Comment not found",
+        });
+      }
+
+      if (
+        comment.owner.toString() !==
+        req.user._id.toString()
+      ) {
+        return res.status(403).json({
+          message:
+            "Not authorized",
+        });
+      }
+
+      await Comment.findByIdAndDelete(
+        req.params.commentId
+      );
+
+      res.json({
+        success: true,
+        message:
+          "Comment deleted",
+      });
+
+    } catch (error) {
+
+      console.error(error);
+
+      res.status(500).json({
+        message:
+          "Server Error",
+      });
+    }
+};
+
+
 module.exports = {
   addComment,
   getComments,
+  deleteComment,
 };

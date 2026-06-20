@@ -32,3 +32,24 @@ export const addComment =
 
     return response.data;
 };
+
+
+export const deleteComment =
+  async (
+    commentId,
+    token
+  ) => {
+
+    const response =
+      await api.delete(
+        `/comments/${commentId}`,
+        {
+          headers: {
+            Authorization:
+              `Bearer ${token}`,
+          },
+        }
+      );
+
+    return response.data;
+};

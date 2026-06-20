@@ -8,13 +8,13 @@ import {
   likeVideo,
 } from "../api/videoApi";
 
-import "./VideoPage.css";
-
 import {
   getComments,
   addComment,
+  deleteComment,
 } from "../api/commentApi";
 
+import "./VideoPage.css";
 
 function VideoPage() {
   const { id } = useParams();
@@ -33,42 +33,39 @@ function VideoPage() {
   const [newComment,
     setNewComment] =
     useState("");
-  
 
   useEffect(() => {
 
     const fetchVideo =
       async () => {
 
-      try {
+        try {
 
-        const data =
-          await getVideoById(id);
+          const data =
+            await getVideoById(id);
 
-        console.log(data);
+          setVideo(
+            data.video
+          );
 
-        setVideo(
-          data.video
-        );
+          setLikesCount(
+            data.video.likesCount
+          );
 
-        setLikesCount(
-          data.video.likesCount
-        );
+          const commentData =
+            await getComments(id);
 
-        const commentData =
-          await getComments(id);
+          setComments(
+            commentData.comments
+          );
 
-        setComments(
-          commentData.comments
-        );
+        } catch (error) {
 
-      } catch (error) {
-
-        console.error(
-          error
-        );
-      }
-    };
+          console.error(
+            error
+          );
+        }
+      };
 
     fetchVideo();
 
@@ -111,45 +108,85 @@ function VideoPage() {
       }
     };
 
+  const handleComment =
+    async () => {
 
-    const handleComment =
-  async () => {
+      try {
 
-    try {
+        if (
+          !newComment.trim()
+        ) {
+          return;
+        }
 
-      const token =
-        localStorage.getItem(
-          "token"
+        const token =
+          localStorage.getItem(
+            "token"
+          );
+
+        if (!token) {
+
+          alert(
+            "Please login first"
+          );
+
+          return;
+        }
+
+        const data =
+          await addComment(
+            video._id,
+            newComment,
+            token
+          );
+
+        setComments([
+          data.comment,
+          ...comments,
+        ]);
+
+        setNewComment("");
+
+      } catch (error) {
+
+        console.error(
+          error
         );
-
-      if (!token) {
-        alert(
-          "Please login first"
-        );
-        return;
       }
+    };
 
-      const data =
-        await addComment(
-          video._id,
-          newComment,
+  const handleDeleteComment =
+    async (
+      commentId
+    ) => {
+
+      try {
+
+        const token =
+          localStorage.getItem(
+            "token"
+          );
+
+        await deleteComment(
+          commentId,
           token
         );
 
-      setComments([
-        data.comment,
-        ...comments,
-      ]);
+        setComments(
+          comments.filter(
+            (comment) =>
+              comment._id !==
+              commentId
+          )
+        );
 
-      setNewComment("");
+      } catch (error) {
 
-    } catch (error) {
-
-      console.error(
-        error
-      );
-    }
-};
+        console.error(
+          error
+        );
+      }
+    };
 
   if (!video) {
 
@@ -162,6 +199,19 @@ function VideoPage() {
       </>
     );
   }
+
+  const currentUser =
+    JSON.parse(
+      localStorage.getItem(
+        "user"
+      )
+    );
+
+    console.log(
+  JSON.parse(
+    localStorage.getItem("user")
+  )
+);
 
   return (
     <>
@@ -211,50 +261,87 @@ function VideoPage() {
 
           <hr />
 
-<h2>
-  Comments
-</h2>
+          <h2>
+            Comments
+          </h2>
 
-<input
-  type="text"
-  placeholder="Add comment..."
-  value={newComment}
-  onChange={(e) =>
-    setNewComment(
-      e.target.value
-    )
-  }
-/>
+          <input
+            type="text"
+            placeholder="Add comment..."
+            value={newComment}
+            onChange={(e) =>
+              setNewComment(
+                e.target.value
+              )
+            }
+          />
 
-<button
-  onClick={handleComment}
->
-  Comment
-</button>
+          <button
+            onClick={
+              handleComment
+            }
+          >
+            Comment
+          </button>
 
-<br />
-<br />
+          <br />
+          <br />
 
-{comments.map(
-  (comment) => (
-    <div
-      key={comment._id}
-    >
-      <strong>
-        {
-          comment.owner?.username ||
-          "User"
-        }
-      </strong>
+          {comments.length === 0 ? (
 
-      <p>
-        {comment.content}
-      </p>
+            <p>
+              No comments yet
+            </p>
 
-      <hr />
-    </div>
-  )
-)}
+          ) : (
+
+            comments.map(
+              (comment) => (
+
+                <div
+                  key={
+                    comment._id
+                  }
+                  className="comment"
+                >
+
+                  <strong>
+                    {
+                      comment.owner
+                        ?.username
+                    }
+                  </strong>
+
+                  <p>
+                    {
+                      comment.content
+                    }
+                  </p>
+
+                  {currentUser &&
+                    comment.owner
+                      ?._id ===
+                      currentUser.id && (
+
+                    <button
+                      onClick={() =>
+                        handleDeleteComment(
+                          comment._id
+                        )
+                      }
+                    >
+                      Delete
+                    </button>
+
+                  )}
+
+                  <hr />
+
+                </div>
+              )
+            )
+
+          )}
 
         </div>
 
