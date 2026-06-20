@@ -11,6 +11,7 @@ import UploadPage from "../pages/UploadPage";
 import VideoPage from "../pages/VideoPage";
 import MyVideosPage from "../pages/MyVideosPage";
 import ProtectedRoute from "../components/ProtectedRoute";
+import DashboardPage from "../pages/DashboardPage";
 
 function AppRouter() {
   return (
@@ -53,6 +54,15 @@ function AppRouter() {
             </ProtectedRoute>
         }
         />
+
+        <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <DashboardPage />
+          </ProtectedRoute>
+        }
+      />
         
       </Routes>
     </BrowserRouter>

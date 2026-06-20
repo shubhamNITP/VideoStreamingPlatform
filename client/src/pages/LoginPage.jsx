@@ -53,37 +53,35 @@ function LoginPage() {
     <>
       <Navbar />
 
-      <h1>Login</h1>
+      <main className="page auth-page">
+        <section className="card auth-card">
+          <div className="auth-copy">
+            <p className="eyebrow">Welcome back</p>
+            <h1>Sign in to continue watching.</h1>
+            <p>Pick up where you left off, manage uploads, and keep your library organized.</p>
+          </div>
 
-      <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className="auth-form">
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+            />
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-        />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+            />
 
-        <br />
-        <br />
-
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-
-        <br />
-        <br />
-
-        <button type="submit">
-          Login
-        </button>
-
-      </form>
+            <button type="submit">Login</button>
+          </form>
+        </section>
+      </main>
     </>
   );
 }

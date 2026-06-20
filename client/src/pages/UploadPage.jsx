@@ -95,114 +95,67 @@ function UploadPage() {
     <>
       <Navbar />
 
-      <h1>Upload Video</h1>
+      <main className="page auth-page">
+        <section className="card auth-card upload-card">
+          <div className="auth-copy">
+            <p className="eyebrow">Upload studio</p>
+            <h1>Publish a video with a cleaner workflow.</h1>
+            <p>Give your upload a title, category, and thumbnail so it lands well in the feed.</p>
+          </div>
 
-      <form
-        onSubmit={handleSubmit}
-      >
+          <form onSubmit={handleSubmit} className="auth-form upload-form">
+            <input
+              type="text"
+              name="title"
+              placeholder="Title"
+              value={formData.title}
+              onChange={handleChange}
+            />
 
-        <input
-          type="text"
-          name="title"
-          placeholder="Title"
-          value={formData.title}
-          onChange={handleChange}
-        />
+            <textarea
+              name="description"
+              placeholder="Description"
+              value={formData.description}
+              onChange={handleChange}
+            />
 
-        <br />
-        <br />
+            <select
+              name="category"
+              value={formData.category}
+              onChange={handleChange}
+            >
+              <option>Education</option>
+              <option>Gaming</option>
+              <option>Music</option>
+              <option>Technology</option>
+              <option>Entertainment</option>
+              <option>Sports</option>
+              <option>News</option>
+              <option>Other</option>
+            </select>
 
-        <textarea
-          name="description"
-          placeholder="Description"
-          value={formData.description}
-          onChange={handleChange}
-        />
+            <label className="file-field">
+              <span>Video file</span>
+              <input
+                type="file"
+                accept="video/*"
+                onChange={(e) => setVideoFile(e.target.files[0])}
+              />
+            </label>
 
-        <br />
-        <br />
+            <label className="file-field">
+              <span>Thumbnail image</span>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setThumbnailFile(e.target.files[0])}
+              />
+            </label>
 
-        <select
-          name="category"
-          value={formData.category}
-          onChange={handleChange}
-        >
-          <option>
-            Education
-          </option>
-
-          <option>
-            Gaming
-          </option>
-
-          <option>
-            Music
-          </option>
-
-          <option>
-            Technology
-          </option>
-
-          <option>
-            Entertainment
-          </option>
-
-          <option>
-            Sports
-          </option>
-
-          <option>
-            News
-          </option>
-
-          <option>
-            Other
-          </option>
-
-        </select>
-
-        <br />
-        <br />
-
-        <label>
-          Video:
-        </label>
-
-        <input
-          type="file"
-          accept="video/*"
-          onChange={(e) =>
-            setVideoFile(
-              e.target.files[0]
-            )
-          }
-        />
-
-        <br />
-        <br />
-
-        <label>
-          Thumbnail:
-        </label>
-
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) =>
-            setThumbnailFile(
-              e.target.files[0]
-            )
-          }
-        />
-
-        <br />
-        <br />
-
-        <button type="submit">
-          Upload
-        </button>
-
-      </form>
+            <button type="submit">Upload</button>
+          </form>
+        </section>
+      </main>
     </>
   );
 }

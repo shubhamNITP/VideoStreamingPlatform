@@ -49,50 +49,43 @@ function RegisterPage() {
     <>
       <Navbar />
 
-      <h1>Register</h1>
+      <main className="page auth-page">
+        <section className="card auth-card">
+          <div className="auth-copy">
+            <p className="eyebrow">Create your account</p>
+            <h1>Build your own channel in minutes.</h1>
+            <p>Set up your profile, start uploading, and keep your videos in one place.</p>
+          </div>
 
-      <form
-        onSubmit={handleSubmit}
-      >
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={
-            formData.username
-          }
-          onChange={handleChange}
-        />
+          <form onSubmit={handleSubmit} className="auth-form">
+            <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              value={formData.username}
+              onChange={handleChange}
+            />
 
-        <br />
-        <br />
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+            />
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-        />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+            />
 
-        <br />
-        <br />
-
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-
-        <br />
-        <br />
-
-        <button type="submit">
-          Register
-        </button>
-      </form>
+            <button type="submit">Register</button>
+          </form>
+        </section>
+      </main>
     </>
   );
 }
