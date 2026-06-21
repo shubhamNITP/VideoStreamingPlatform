@@ -51,11 +51,6 @@ function RegisterPage() {
 
       <main className="page auth-page">
         <section className="card auth-card">
-          <div className="auth-copy">
-            <p className="eyebrow">Create your account</p>
-            <h1>Build your own channel in minutes.</h1>
-            <p>Set up your profile, start uploading, and keep your videos in one place.</p>
-          </div>
 
           <form onSubmit={handleSubmit} className="auth-form">
             <input

@@ -55,11 +55,6 @@ function LoginPage() {
 
       <main className="page auth-page">
         <section className="card auth-card">
-          <div className="auth-copy">
-            <p className="eyebrow">Welcome back</p>
-            <h1>Sign in to continue watching.</h1>
-            <p>Pick up where you left off, manage uploads, and keep your library organized.</p>
-          </div>
 
           <form onSubmit={handleSubmit} className="auth-form">
             <input

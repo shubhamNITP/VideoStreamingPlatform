@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import Navbar from "../components/Navbar";
 import VideoCard from "../components/VideoCard";
-
+import Spinner from "../components/Spinner";
 import { getMyVideos, deleteVideo } from "../api/videoApi";
 
 import "./MyVideosPage.css";
@@ -54,17 +54,31 @@ function MyVideosPage() {
               <VideoCard video={video} />
 
               <div className="card-actions">
-                <Link to={`/videos/${video._id}`} className="btn-outline">
-                  Watch Video
-                </Link>
 
-                <button
-                  onClick={() => handleDelete(video._id)}
-                  className="btn-outline btn-delete"
-                >
-                  Delete
-                </button>
-              </div>
+            <Link
+              to={`/videos/${video._id}`}
+              className="btn-outline"
+            >
+              Watch Video
+            </Link>
+
+            <Link
+              to={`/edit-video/${video._id}`}
+              className="btn-outline"
+            >
+              Edit
+            </Link>
+
+            <button
+              onClick={() =>
+                handleDelete(video._id)
+              }
+              className="btn-outline btn-delete"
+            >
+              Delete
+            </button>
+
+            </div>
             </div>
           ))}
         </div>

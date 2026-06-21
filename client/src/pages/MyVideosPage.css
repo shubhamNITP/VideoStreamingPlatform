@@ -1,17 +1,33 @@
 .my-videos-page {
-  padding-top: 18px;
+  padding-top: 16px;
+}
+
+.my-videos-page h1 {
+  margin-bottom: 8px;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 800;
+  background: linear-gradient(135deg, #fff, #a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .video-count {
   font-weight: 600;
-  margin-bottom: 12px;
+  margin-bottom: 20px;
   color: var(--muted);
+  font-size: 0.88rem;
+  background: rgba(124, 58, 237, 0.1);
+  padding: 4px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(124, 58, 237, 0.15);
+  display: inline-block;
 }
 
 .video-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 24px;
   align-items: start;
 }
 
@@ -19,31 +35,66 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  padding: 12px;
+  border-radius: 20px;
+  background: rgba(18, 18, 30, 0.45);
+  border: 1px solid rgba(124, 58, 237, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.my-video-card:hover {
+  border-color: rgba(124, 58, 237, 0.2);
+  box-shadow: 0 12px 30px rgba(124, 58, 237, 0.1), 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .card-actions {
   display: flex;
-  gap: 10px;
-  padding: 10px 12px 16px 12px;
+  gap: 8px;
+  padding: 12px 4px 4px;
+  margin-top: auto;
+  flex-wrap: wrap;
 }
 
 .btn-outline {
-  background: transparent;
-  border: 1px solid rgba(15,23,42,0.06);
-  padding: 8px 12px;
-  border-radius: 6px;
-  color: var(--text);
+  background: rgba(26, 26, 46, 0.5);
+  border: 1px solid rgba(124, 58, 237, 0.18);
+  padding: 8px 14px;
+  border-radius: 999px;
+  color: var(--text-soft);
   text-decoration: none;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.btn-outline:hover {
+  background: rgba(124, 58, 237, 0.15);
+  border-color: rgba(124, 58, 237, 0.35);
+  color: #fff;
+  transform: translateY(-1px);
 }
 
 .btn-delete {
-  background: linear-gradient(90deg, rgba(255,0,0,0.06), rgba(255,77,77,0.04));
-  border: 1px solid rgba(255,0,0,0.12);
-  color: var(--primary);
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+}
+
+.btn-delete:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #fff;
 }
 
 @media (max-width: 640px) {
-  .video-grid { grid-template-columns: 1fr }
+  .video-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
 }

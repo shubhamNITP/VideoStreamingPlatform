@@ -338,6 +338,129 @@ const toggleLike = async (
   }
 };
 
+const updateVideo =
+  async (req, res) => {
+
+    try {
+
+      const {
+        title,
+        description,
+        category,
+      } = req.body;
+
+      const video =
+        await Video.findById(
+          req.params.id
+        );
+
+      if (!video) {
+        return res.status(404).json({
+          message:
+            "Video not found",
+        });
+      }
+
+      if (
+        video.owner.toString() !==
+        req.user._id.toString()
+      ) {
+        return res.status(403).json({
+          message:
+            "Not authorized",
+        });
+      }
+
+      video.title =
+        title || video.title;
+
+      video.description =
+        description ||
+        video.description;
+
+      video.category =
+        category ||
+        video.category;
+
+      // Replace Thumbnail
+      if (
+        req.files?.thumbnail
+      ) {
+
+        await cloudinary
+          .uploader
+          .destroy(
+            video.thumbnailPublicId
+          );
+
+        const thumbnailUpload =
+          await uploadToCloudinary(
+            req.files
+              .thumbnail[0]
+              .buffer,
+            "thumbnails",
+            "image"
+          );
+
+        video.thumbnailUrl =
+          thumbnailUpload.secure_url;
+
+        video.thumbnailPublicId =
+          thumbnailUpload.public_id;
+      }
+
+      // Replace Video
+      if (
+        req.files?.video
+      ) {
+
+        await cloudinary
+          .uploader
+          .destroy(
+            video.videoPublicId,
+            {
+              resource_type:
+                "video",
+            }
+          );
+
+        const videoUpload =
+          await uploadToCloudinary(
+            req.files
+              .video[0]
+              .buffer,
+            "videos",
+            "video"
+          );
+
+        video.videoUrl =
+          videoUpload.secure_url;
+
+        video.videoPublicId =
+          videoUpload.public_id;
+
+        video.duration =
+          videoUpload.duration || 0;
+      }
+
+      await video.save();
+
+      res.json({
+        success: true,
+        video,
+      });
+
+    } catch (error) {
+
+      console.error(error);
+
+      res.status(500).json({
+        message:
+          "Server Error",
+      });
+    }
+};
+
 module.exports = {
   uploadVideo,
   getAllVideos,
@@ -345,4 +468,5 @@ module.exports = {
   getMyVideos,
   deleteVideo,
   toggleLike,
+  updateVideo,
 };

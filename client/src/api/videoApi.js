@@ -88,3 +88,29 @@ export const likeVideo =
 
     return response.data;
 };
+
+
+
+export const updateVideo =
+  async (
+    id,
+    formData,
+    token
+  ) => {
+
+    const response =
+      await api.put(
+        `/videos/${id}`,
+        formData,
+        {
+          headers: {
+            Authorization:
+              `Bearer ${token}`,
+            "Content-Type":
+              "multipart/form-data",
+          },
+        }
+      );
+
+    return response.data;
+};

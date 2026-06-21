@@ -12,6 +12,7 @@ import VideoPage from "../pages/VideoPage";
 import MyVideosPage from "../pages/MyVideosPage";
 import ProtectedRoute from "../components/ProtectedRoute";
 import DashboardPage from "../pages/DashboardPage";
+import EditVideoPage from "../pages/EditVideoPage";
 
 function AppRouter() {
   return (
@@ -63,6 +64,15 @@ function AppRouter() {
           </ProtectedRoute>
         }
       />
+
+      <Route
+      path="/edit-video/:id"
+      element={
+        <ProtectedRoute>
+          <EditVideoPage />
+        </ProtectedRoute>
+      }
+    />
         
       </Routes>
     </BrowserRouter>

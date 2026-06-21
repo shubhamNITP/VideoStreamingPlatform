@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar";
-
+import Spinner from "../components/Spinner";
 import { uploadVideo } from "../api/videoApi";
 
 function UploadPage() {
@@ -97,11 +97,6 @@ function UploadPage() {
 
       <main className="page auth-page">
         <section className="card auth-card upload-card">
-          <div className="auth-copy">
-            <p className="eyebrow">Upload studio</p>
-            <h1>Publish a video with a cleaner workflow.</h1>
-            <p>Give your upload a title, category, and thumbnail so it lands well in the feed.</p>
-          </div>
 
           <form onSubmit={handleSubmit} className="auth-form upload-form">
             <input

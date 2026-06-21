@@ -1,32 +1,119 @@
 .video-page {
-  max-width: 900px;
-  margin: 30px auto;
-  padding: 20px;
+  width: min(1080px, calc(100% - 32px));
+  margin: 24px auto 36px;
+  padding: 0;
 }
 
 .video-page h1 {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
+  font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+  font-weight: 800;
+  line-height: 1.3;
 }
 
 .video-player {
   width: 100%;
   border-radius: 12px;
+  border: 1px solid #202020;
+  background: #000;
+  box-shadow: none;
+  margin-bottom: 20px;
 }
 
 .video-info {
   margin-top: 20px;
   text-align: left;
+  background: #1f1f1f;
+  border: 1px solid #303030;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: none;
 }
 
 .video-info p {
   margin: 10px 0;
+  line-height: 1.6;
+  color: var(--text-soft);
 }
 
+/* Likes/views row alignment and buttons */
 .video-info button {
-  margin-top: 10px;
-  padding: 10px 20px;
+  margin-top: 12px;
+  margin-right: 12px;
+  min-height: 36px;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 8px 18px;
+}
+
+.video-info hr {
   border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 16px;
+  border-top: 1px solid #303030;
+  margin: 24px 0;
+}
+
+.video-info h2 {
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+  font-weight: 700;
+}
+
+/* Comment Input styles */
+.video-info input[type="text"] {
+  margin-bottom: 12px;
+  background: #121212;
+  border: 1px solid #303030;
+}
+
+.video-info input[type="text"]:focus {
+  border-color: #3ea6ff;
+}
+
+/* Comments list styling */
+.comment {
+  padding: 16px 0;
+  border-bottom: 1px solid #303030;
+}
+
+.comment:last-of-type {
+  border-bottom: none;
+}
+
+.comment strong {
+  font-size: 0.9rem;
+  color: #ffffff;
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.comment p {
+  margin: 6px 0 10px;
+  color: var(--text);
+  font-size: 0.94rem;
+}
+
+.comment button {
+  background: rgba(239, 68, 68, 0.08);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  min-height: 28px;
+  margin: 0;
+}
+
+.comment button:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.comment hr {
+  display: none; /* Hide the nested hr lines to keep the design cleaner */
+}
+
+@media (max-width: 680px) {
+  .video-info {
+    padding: 16px;
+  }
 }

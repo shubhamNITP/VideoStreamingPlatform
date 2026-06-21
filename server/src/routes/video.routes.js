@@ -11,7 +11,8 @@ const {
   getVideoById,
   getMyVideos,
   deleteVideo,
-  toggleLike
+  toggleLike,
+  updateVideo,
 } = require("../controllers/video.controller");
 
 const router = express.Router();
@@ -35,6 +36,23 @@ router.get(
   "/my-videos",
   protect,
   getMyVideos
+);
+
+
+router.put(
+  "/:id",
+  protect,
+  upload.fields([
+    {
+      name: "video",
+      maxCount: 1,
+    },
+    {
+      name: "thumbnail",
+      maxCount: 1,
+    },
+  ]),
+  updateVideo
 );
 
 router.post(
