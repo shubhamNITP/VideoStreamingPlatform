@@ -461,6 +461,61 @@ const updateVideo =
     }
 };
 
+
+const getRecommendedVideos =
+  async (req, res) => {
+
+    try {
+
+      const currentVideo =
+        await Video.findById(
+          req.params.id
+        );
+
+      if (!currentVideo) {
+
+        return res
+          .status(404)
+          .json({
+            message:
+              "Video not found",
+          });
+      }
+
+      const videos =
+        await Video.find({
+          category:
+            currentVideo.category,
+
+          _id: {
+            $ne:
+              currentVideo._id,
+          },
+        })
+          .limit(8)
+          .populate(
+            "owner",
+            "username"
+          );
+
+      res.json({
+        success: true,
+        videos,
+      });
+
+    } catch (error) {
+
+      console.error(
+        error
+      );
+
+      res.status(500).json({
+        message:
+          "Server Error",
+      });
+    }
+};
+
 module.exports = {
   uploadVideo,
   getAllVideos,
@@ -469,4 +524,5 @@ module.exports = {
   deleteVideo,
   toggleLike,
   updateVideo,
+  getRecommendedVideos,
 };

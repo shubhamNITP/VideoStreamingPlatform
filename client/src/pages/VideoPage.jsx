@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import {
+  useParams,
+  Link,
+} from "react-router-dom";
 
 import Navbar from "../components/Navbar";
 
 import {
   getVideoById,
   likeVideo,
+  getRecommendedVideos,
 } from "../api/videoApi";
 
 import {
@@ -13,6 +17,13 @@ import {
   addComment,
   deleteComment,
 } from "../api/commentApi";
+
+
+import {
+  toggleSubscription,
+  getSubscriberCount,
+  getSubscriptionStatus,
+} from "../api/subscriptionApi";
 
 import "./VideoPage.css";
 
@@ -33,8 +44,22 @@ function VideoPage() {
   const [newComment,
     setNewComment] =
     useState("");
+  
 
-  useEffect(() => {
+  const [subscriberCount,
+  setSubscriberCount] =
+  useState(0);
+
+  const [subscribed,
+    setSubscribed] =
+    useState(false);
+
+
+  const [recommendedVideos,
+  setRecommendedVideos] =
+  useState([]);
+
+    useEffect(() => {
 
     const fetchVideo =
       async () => {
@@ -44,9 +69,41 @@ function VideoPage() {
           const data =
             await getVideoById(id);
 
+          console.log("Fetched video data:", data.video);
+
           setVideo(
             data.video
           );
+
+          const channelId =
+            data.video.owner._id;
+
+          const countData =
+            await getSubscriberCount(
+              channelId
+            );
+
+          setSubscriberCount(
+            countData.count
+          );
+
+          const token =
+            localStorage.getItem(
+              "token"
+            );
+
+          if (token) {
+
+            const statusData =
+              await getSubscriptionStatus(
+                channelId,
+                token
+              );
+
+            setSubscribed(
+              statusData.subscribed
+            );
+          }
 
           setLikesCount(
             data.video.likesCount
@@ -58,6 +115,15 @@ function VideoPage() {
           setComments(
             commentData.comments
           );
+
+          const recommendationData =
+          await getRecommendedVideos(
+            id
+          );
+
+        setRecommendedVideos(
+          recommendationData.videos
+        );
 
         } catch (error) {
 
@@ -188,6 +254,64 @@ function VideoPage() {
       }
     };
 
+    const handleSubscribe =
+  async () => {
+
+    try {
+
+      const token =
+        localStorage.getItem(
+          "token"
+        );
+
+      if (!token) {
+
+        alert(
+          "Please login first"
+        );
+
+        return;
+      }
+
+      const data =
+        await toggleSubscription(
+          video.owner._id,
+          token
+        );
+
+      if (
+        data.subscribed
+      ) {
+
+        setSubscribed(
+          true
+        );
+
+        setSubscriberCount(
+          (prev) =>
+            prev + 1
+        );
+
+      } else {
+
+        setSubscribed(
+          false
+        );
+
+        setSubscriberCount(
+          (prev) =>
+            prev - 1
+        );
+      }
+
+    } catch (error) {
+
+      console.error(
+        error
+      );
+    }
+};
+
   if (!video) {
 
     return (
@@ -207,11 +331,6 @@ function VideoPage() {
       )
     );
 
-    console.log(
-  JSON.parse(
-    localStorage.getItem("user")
-  )
-);
 
   return (
     <>
@@ -232,6 +351,35 @@ function VideoPage() {
             type="video/mp4"
           />
         </video>
+
+            <h3>
+            Uploaded By:
+            {" "}
+            {video.owner.username}
+          </h3>
+
+          <p>
+            Subscribers:
+            {" "}
+            {subscriberCount}
+          </p>
+
+          {currentUser?.id !==
+            video.owner._id && (
+
+            <button
+              onClick={
+                handleSubscribe
+              }
+            >
+              {
+                subscribed
+                  ? "Subscribed"
+                  : "Subscribe"
+              }
+            </button>
+
+          )}c
 
         <div className="video-info">
 
@@ -344,6 +492,60 @@ function VideoPage() {
           )}
 
         </div>
+
+        <hr />
+
+<h2>
+  Recommended Videos
+</h2>
+
+<div
+  className="recommended-videos"
+>
+  {recommendedVideos.map(
+    (video) => (
+
+      <Link
+        key={video._id}
+        to={`/videos/${video._id}`}
+        style={{
+          textDecoration:
+            "none",
+          color: "inherit",
+        }}
+      >
+
+        <div
+          className="recommended-card"
+        >
+
+          <img
+            src={
+              video.thumbnailUrl
+            }
+            alt={
+              video.title
+            }
+            width="250"
+          />
+
+          <h4>
+            {video.title}
+          </h4>
+
+          <p>
+            {
+              video.owner
+                .username
+            }
+          </p>
+
+        </div>
+
+      </Link>
+    )
+  )}
+</div>
 
       </div>
     </>

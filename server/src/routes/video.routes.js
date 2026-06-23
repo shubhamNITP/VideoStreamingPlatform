@@ -13,6 +13,7 @@ const {
   deleteVideo,
   toggleLike,
   updateVideo,
+  getRecommendedVideos,
 } = require("../controllers/video.controller");
 
 const router = express.Router();
@@ -36,6 +37,12 @@ router.get(
   "/my-videos",
   protect,
   getMyVideos
+);
+
+
+router.get(
+  "/:id/recommendations",
+  getRecommendedVideos
 );
 
 

@@ -4,7 +4,6 @@ import api from "./axios";
 export const getAllVideos =
   async (search = "") => {
 
-    console.log("Fetching videos with search:", search);
     const response =
       await api.get(
         `/videos?search=${search}`
@@ -110,6 +109,20 @@ export const updateVideo =
               "multipart/form-data",
           },
         }
+      );
+
+    return response.data;
+};
+
+
+
+
+export const getRecommendedVideos =
+  async (id) => {
+
+    const response =
+      await api.get(
+        `/videos/${id}/recommendations`
       );
 
     return response.data;

@@ -117,3 +117,21 @@
     padding: 16px;
   }
 }
+
+
+.recommended-videos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.recommended-card {
+  width: 250px;
+  cursor: pointer;
+}
+
+.recommended-card img {
+  width: 100%;
+  border-radius: 8px;
+}
