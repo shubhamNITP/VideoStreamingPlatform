@@ -352,10 +352,21 @@ function VideoPage() {
           />
         </video>
 
-            <h3>
+           <h3>
+
             Uploaded By:
+
             {" "}
-            {video.owner.username}
+
+            <Link
+              to={`/users/${video.owner._id}`}
+            >
+              {
+                video.owner
+                  .username
+              }
+            </Link>
+
           </h3>
 
           <p>
@@ -379,7 +390,7 @@ function VideoPage() {
               }
             </button>
 
-          )}c
+          )}
 
         <div className="video-info">
 

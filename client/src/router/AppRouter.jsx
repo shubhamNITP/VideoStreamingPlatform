@@ -13,6 +13,7 @@ import MyVideosPage from "../pages/MyVideosPage";
 import ProtectedRoute from "../components/ProtectedRoute";
 import DashboardPage from "../pages/DashboardPage";
 import EditVideoPage from "../pages/EditVideoPage";
+import ProfilePage from "../pages/ProfilePage";
 
 function AppRouter() {
   return (
@@ -71,6 +72,13 @@ function AppRouter() {
         <ProtectedRoute>
           <EditVideoPage />
         </ProtectedRoute>
+      }
+    />
+
+    <Route
+      path="/users/:id"
+      element={
+        <ProfilePage />
       }
     />
         
